@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+ShiftGuard-X Research Codebase
+"""
+
+"""
+# ShiftGuard-X NB67 — Prior_Art_and_ALP_Source_Audit
+
+Source-level study of the ALP file type parser at the pinned commit plus explicit, URL-grounded novelty-overlap matrix. No benchmark claims.
+
+**Run**: Google Colab CPU → Runtime → Run all. Each notebook is fully standalone and writes a results ZIP. A failed download generates an explicit incomplete decision, never a synthetic replacement. **No paper acceptance or novelty is asserted.**
+"""
+
+import sys,os,time,csv,json,io,struct,hashlib,statistics,zlib,lzma,platform,urllib.request,importlib.util,math,zipfile,traceback
+from pathlib import Path
+import numpy as np
+NOTEBOOK_NO=67
+ROOT=Path('/content' if Path('/content').exists() else '/mnt/data')
+OUT=ROOT/f'SGX_NB{NOTEBOOK_NO}_outputs';OUT.mkdir(exist_ok=True,parents=True)
+SMOKE=os.getenv('SGX_LOCAL_SMOKE_ONLY','0')=='1'
+def emit_csv(name,rows):
+ if not rows:return
+ fields=list(dict.fromkeys(k for r in rows for k in r.keys()))
+ with (OUT/name).open('w',newline='',encoding='utf-8') as f:
+  w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+def emit_json(name,obj): (OUT/name).write_text(json.dumps(obj,indent=2,default=str))
+def raw(v):return np.asarray(v,dtype='<f8').copy(order='C').tobytes()
+def sha(x):return hashlib.sha256(x).hexdigest()
+def deliver():
+ filename=ROOT/f'SGX_NB{NOTEBOOK_NO}_results.zip'
+ with zipfile.ZipFile(filename,'w',zipfile.ZIP_DEFLATED) as z:
+  for f in OUT.rglob('*'):
+   if f.is_file():z.write(f,f.relative_to(OUT))
+ print('RESULT ZIP:',filename,'SIZE',filename.stat().st_size)
+ try:
+  from google.colab import files;files.download(str(filename))
+ except ImportError:pass
+ except Exception as e:print('Use Files sidebar to download ZIP:',e)
+ return filename
+emit_json('environment.json',{'notebook':NOTEBOOK_NO,'python':sys.version,'numpy':np.__version__,'platform':platform.platform(),'smoke_only':SMOKE,'no_synthetic_substitution_in_production':True})
+
+
+import urllib.request,re,subprocess
+COMMIT='31ca0ed11c93c99d3f5b5c30e01a3e1c3832d3ce'
+FILES=['data/include/data.hpp','benchmarks/include/benchmark.hpp','benchmarks/bench_your_dataset.cpp',
+       'how_to_benchmark_your_dataset.md','benchmarks/your_own_dataset.csv']
+LITERATURE=[
+ {'name':'ALP (SIGMOD 2024)','url':'https://ir.cwi.nl/pub/33334/','prior_art':'lossless decimal scaling, exceptions, adaptive vector compression','SGX_overlap':'high'},
+ {'name':'ALP in Parquet (2026)','url':'https://parquet.apache.org/blog/2026/09/22/alp-adaptive-lossless-floating-point-encoding-in-apache-parquet/','prior_art':'integer frame-of-reference, scaled decimals, exact exceptions','SGX_overlap':'high'},
+ {'name':'SIMD-FastPFOR','url':'https://arxiv.org/abs/1209.2137','prior_art':'integer bit packing with exceptions and SIMD decoding','SGX_overlap':'medium-high'},
+ {'name':'Sprintz','url':'https://arxiv.org/abs/1808.02515','prior_art':'multivariate lossless predictor and residual compression','SGX_overlap':'medium'},
+ {'name':'Elf* and Streaming Elf*','url':'https://ieeexplore.ieee.org/document/10949160/','prior_art':'adaptive floating-point XOR/leading-trailing bit coding','SGX_overlap':'medium'},
+ {'name':'Falcon (2025 preprint)','url':'https://arxiv.org/abs/2511.04140','prior_art':'GPU lossless decimal to int, adaptive sparse bit-plane coding','SGX_overlap':'medium-high'}]
+for r in LITERATURE:r['novelty_conclusion']='Previous SGX method is not established as novel by these results'
+emit_csv('prior_art_matrix.csv',LITERATURE)
+source=[];network_errors=[]
+for rel in FILES:
+ url='https://raw.githubusercontent.com/cwida/ALP/'+COMMIT+'/'+rel
+ try:
+  req=urllib.request.Request(url,headers={'User-Agent':'SGX-research-audit/1.0'})
+  with urllib.request.urlopen(req,timeout=35) as resp:data=resp.read()
+  t=data.decode('utf-8','replace');lines=t.splitlines();(OUT/('source_'+rel.replace('/','_'))).write_bytes(data)
+  hits=[]
+  for j,line in enumerate(lines):
+   if any(x in line.lower() for x in ('filetype','file_type','bin or csv','your_own_dataset.csv','from_csv','binary','alpbench.bench_alp_on_your_dataset')):
+    hits.append({'line':j+1,'snippet':line.strip()[:180]})
+  source.append({'file':rel,'url':url,'sha256':sha(data),'lines':len(lines),'hits':hits[:90]})
+ except Exception as e: network_errors.append({'file':rel,'url':url,'error':repr(e)})
+emit_json('alp_source_audit.json',{'pinned_commit':COMMIT,'files':source,'errors':network_errors,
+                                  'IMPORTANT':'Source-audit only. No native ALP compression measurements. Do not treat native BPV as equal to full-file BPV.'})
+for a in source:
+ for item in a['hits']:
+  emit_csv('alp_parser_matches.csv',[{'file':s['file'],'line':h['line'],'snippet':h['snippet']} for s in source for h in s['hits']])
+  break
+status='SOURCE_AUDIT_COMPLETE' if len(source)>=4 else 'SOURCE_AUDIT_INCOMPLETE'
+# These are preregistered scientific requirements rather than automatically granted novelty.
+gates=[
+ ('Distinct from ALP decimal-integer scaling / exceptions',False),
+ ('Distinct from bitpacking/dictionary/XOR/reordering',False),
+ ('Native ALP matched-input ratio and decode check',False),
+ ('Genuinely unseen datasets with pinned sources and SHA-256',False),
+ ('No catastrophic regressions and measured selection overhead',False)]
+emit_csv('novelty_gate.csv',[{'criterion':a,'passed':b} for a,b in gates])
+emit_json('decision.json',{'status':status,'research_decision':'NO_NOVEL_CODEC_CLAIM',
+ 'findings':'Established SGX decimal-lattice, joint XOR and mask codecs are not demonstrated to be novel or competitive against matched native ALP. Research study contribution might be possible with rigorous evaluation.',
+ 'missing_items':['Matched native ALP file-size API','new independently justified mechanism','blind external validation','native-codec throughput'],
+ 'files_retrieved':len(source),'network_errors':len(network_errors)})
+print('ALP source-audit status:',status,'retrieved',len(source),'of',len(FILES))
+deliver()
+

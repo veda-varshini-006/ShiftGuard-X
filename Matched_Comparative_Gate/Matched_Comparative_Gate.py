@@ -1,0 +1,176 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+ShiftGuard-X Research Codebase
+"""
+
+"""
+# SGX NB23 — Honest comparative gate
+
+Standalone prospective test, repeating exact same held-out inputs and accounting for bitstream headers. Generic reference codecs run directly. Optional official ALP benchmark summary can be included as a **protocol-different reference**, never as a matched wall-time comparison. Reports CONTINUE_EXPLORATION/REDESIGN/INSUFFICIENT_EVIDENCE, not top-journal acceptance. `SGX_NB23_results.zip`.
+"""
+
+OUTPUT_NAME='SGX_NB23_outputs'
+import os,sys,io,json,csv,time,hashlib,zipfile,urllib.request,pathlib,platform,math,traceback,zlib,lzma,struct
+import numpy as np
+ROOT=pathlib.Path('/content') if pathlib.Path('/content').exists() else pathlib.Path('/mnt/data')
+OUT=ROOT/OUTPUT_NAME;OUT.mkdir(exist_ok=True)
+STATUS=[]
+def save_csv(name, rows):
+  keys=list(dict.fromkeys(k for row in rows for k in row)) if rows else ['status']
+  with (OUT/name).open('w',newline='') as f:
+    w=csv.DictWriter(f,fieldnames=keys);w.writeheader();w.writerows(rows)
+def record(stage,ok,msg=''):
+  STATUS.append({'stage':stage,'ok':bool(ok),'message':str(msg)[:500]});(OUT/'stages.json').write_text(json.dumps(STATUS,indent=2));print(stage,'PASS' if ok else 'FAIL',str(msg)[:100])
+def sha(b):return hashlib.sha256(b).hexdigest()
+def fetch(url,maxbytes=36_000_000):
+  req=urllib.request.Request(url,headers={'User-Agent':'SGX-Research-CPU/1.0'})
+  with urllib.request.urlopen(req,timeout=35) as f:
+    chunks=[];size=0
+    while True:
+      b=f.read(1<<20)
+      if not b:break
+      size+=len(b)
+      if size>maxbytes:raise ValueError('Download over size cap')
+      chunks.append(b)
+  return b''.join(chunks)
+def load_real(maxvals=16384):
+  res=[];prov=[]
+  sources=[('air','https://archive.ics.uci.edu/static/public/360/air+quality.zip',['T','RH','CO(GT)']),('house','https://archive.ics.uci.edu/static/public/235/individual+household+electric+power+consumption.zip',['Global_active_power','Voltage','Global_intensity'])]
+  for ds,url,cols in sources:
+    try:
+      b=fetch(url);zf=zipfile.ZipFile(io.BytesIO(b));filenames=zf.namelist(); ext='.csv' if ds=='air' else '.txt'
+      f=next((v for v in filenames if v.lower().endswith(ext)),None)
+      if not f:raise RuntimeError('Expected input absent')
+      reader=csv.DictReader(io.TextIOWrapper(zf.open(f),encoding='utf-8-sig',errors='replace'),delimiter=';')
+      vals={c:[] for c in cols}
+      for row in reader:
+        for col in cols:
+          if len(vals[col])>=maxvals:continue
+          try:
+            st=(row.get(col) or '').strip().replace(',','.')
+            v=float(st)
+            if math.isfinite(v) and (ds!='air' or v!=-200):vals[col].append(v)
+          except (ValueError,TypeError):pass
+        if all(len(v)>=maxvals for v in vals.values()):break
+      for col in cols:
+        arr=np.asarray(vals[col],dtype='<f8')
+        if arr.size<256:continue
+        name=ds+'_'+''.join(x if x.isalnum() else '_' for x in col)
+        res.append((name,arr,'REAL_UCI'))
+      prov.append({'dataset':ds,'url':url,'archive_sha256':sha(b),'status':'READY','columns_found':sum(len(vals[c])>=256 for c in cols)})
+      record('download_'+ds,True,f'{len(vals)} parsed')
+    except Exception as e:
+      prov.append({'dataset':ds,'url':url,'status':'FAILED','reason':repr(e)});record('download_'+ds,False,repr(e))
+  save_csv('dataset_provenance.csv',prov)
+  return res
+
+def synthetic_controls(n=4096):
+  rng=np.random.default_rng(47)
+  return [('synthetic_walk',np.cumsum(rng.normal(0,.05,n)).astype('<f8'),'SYNTHETIC'),('synthetic_bits',rng.integers(0,2**64,size=n,dtype=np.uint64).view('<f8'),'SYNTHETIC')]
+def export_zip(label):
+  (OUT/'environment.json').write_text(json.dumps({'python':sys.version,'platform':platform.platform(),'numpy':np.__version__},indent=2))
+  manifest={x.name:sha(x.read_bytes()) for x in OUT.iterdir() if x.is_file() and x.name!='sha256_manifest.json'}
+  (OUT/'sha256_manifest.json').write_text(json.dumps(manifest,indent=2))
+  path=ROOT/(label+'_results.zip')
+  with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED) as z:
+    for x in OUT.iterdir():
+      if x.is_file():z.write(x,x.name)
+  print('RESULTS ZIP:',path)
+  try:
+    from google.colab import files
+    files.download(str(path))
+  except ImportError:pass
+  return path
+
+
+# Reversible transforms on raw 64-bit float representations; no arithmetic rounding.
+def transform(b,mode):
+  w=np.frombuffer(b,dtype='<u8').copy()
+  if mode=='identity':return b
+  if mode=='xor':
+    o=w.copy();o[1:]=w[1:]^w[:-1];return o.tobytes()
+  if mode=='delta':
+    o=w.copy();o[1:]=w[1:]-w[:-1];return o.tobytes()
+  if mode=='xor_lanes':
+    o=w.copy();o[1:]=w[1:]^w[:-1]
+    return o.view(np.uint8).reshape(-1,8).T.copy().tobytes()
+  if mode=='delta_lanes':
+    o=w.copy();o[1:]=w[1:]-w[:-1]
+    return o.view(np.uint8).reshape(-1,8).T.copy().tobytes()
+  if mode=='lanes':return w.view(np.uint8).reshape(-1,8).T.copy().tobytes()
+  raise ValueError(mode)
+def untransform(b,mode):
+  if mode=='identity':return b
+  if mode in ('lanes','xor_lanes','delta_lanes'):
+    n=len(b)//8;b=np.frombuffer(b,dtype=np.uint8).reshape(8,n).T.copy().tobytes()
+    if mode=='lanes':return b
+    mode='xor' if mode=='xor_lanes' else 'delta'
+  w=np.frombuffer(b,dtype='<u8').copy()
+  for i in range(1,w.size):
+    w[i]=np.uint64(int(w[i])^int(w[i-1])) if mode=='xor' else np.uint64((int(w[i])+int(w[i-1]))&((1<<64)-1))
+  return w.tobytes()
+def compress(b,backend):
+  if backend=='zlib6':return zlib.compress(b,6)
+  if backend=='lzma1':return lzma.compress(b,preset=1)
+  if backend=='raw':return b
+  raise ValueError(backend)
+def decompress(b,backend):
+  if backend=='zlib6':return zlib.decompress(b)
+  if backend=='lzma1':return lzma.decompress(b)
+  if backend=='raw':return b
+  raise ValueError(backend)
+
+
+# A complete self-describing candidate codec, independently decodable by per-block headers.
+MODES=['identity','xor','delta','lanes','xor_lanes','delta_lanes'];MAGIC=b'SGX23A';BLOCK=4096
+def enc(b,mode):
+  parts=[MAGIC,struct.pack('<I',len(b))]
+  for i in range(0,len(b),BLOCK):
+    chunk=compress(transform(b[i:i+BLOCK],mode),'zlib6')
+    parts.extend((struct.pack('<BI',MODES.index(mode),len(chunk)),chunk))
+  return b''.join(parts)
+def dec(b):
+  if b[:6]!=MAGIC:raise ValueError('magic')
+  L=struct.unpack('<I',b[6:10])[0];pos=10;out=[]
+  while pos<len(b):
+    if pos+5>len(b):raise ValueError('header')
+    ix,n=struct.unpack('<BI',b[pos:pos+5]);pos+=5
+    if ix>=len(MODES) or pos+n>len(b):raise ValueError('length')
+    out.append(untransform(zlib.decompress(b[pos:pos+n]),MODES[ix]));pos+=n
+  result=b''.join(out)
+  if len(result)!=L:raise ValueError('decoded size')
+  return result
+series=load_real(16384)+synthetic_controls()
+rows=[];decisions=[]
+for name,a,origin in series:
+  b=a.tobytes();nblocks=len(b)//BLOCK
+  if nblocks<4:continue
+  train=b[:(nblocks//4)*BLOCK];test=b[(nblocks//4)*BLOCK:]
+  mode=min(MODES,key=lambda m:len(enc(train,m)))
+  methods=['raw','zlib6','lzma1','candidate_cal_locked']
+  for method in methods:
+    t=time.perf_counter()
+    if method=='candidate_cal_locked':coded=enc(test,mode)
+    else:coded=compress(test,method)
+    et=time.perf_counter()-t
+    t=time.perf_counter()
+    restored=dec(coded) if method=='candidate_cal_locked' else decompress(coded,method)
+    dt=time.perf_counter()-t
+    ok=restored==test
+    rows.append({'series':name,'origin':origin,'method':method,'chosen_mode':mode if method=='candidate_cal_locked' else '', 'input_bytes':len(test),'output_bytes':len(coded),'bits_per_value':8*len(coded)/(len(test)//8),'encode_s':et,'decode_s':dt,'exact_ok':ok})
+  ref=min([r for r in rows if r['series']==name and r['method']!='candidate_cal_locked'],key=lambda r:r['output_bytes'])
+  candidate=next(r for r in rows if r['series']==name and r['method']=='candidate_cal_locked')
+  decisions.append({'series':name,'origin':origin,'winner_baseline':ref['method'],'baseline_bytes':ref['output_bytes'],'candidate_bytes':candidate['output_bytes'],'gain_pct':100*(ref['output_bytes']-candidate['output_bytes'])/ref['output_bytes'],'candidate_faster_than_baseline':candidate['encode_s']<ref['encode_s']})
+  record('benchmark_'+name,True,mode)
+assert all(r['exact_ok'] for r in rows)
+save_csv('matched_benchmarks.csv',rows);save_csv('decision_by_dataset.csv',decisions)
+real=[d for d in decisions if d['origin']=='REAL_UCI']
+positive=sum(d['gain_pct']>0 for d in real)
+decision='INSUFFICIENT_EVIDENCE' if len(real)<3 else 'CONTINUE_EXPLORATION' if positive>=3 else 'REDESIGN'
+verdict={'decision':decision,'real_series_evaluated':len(real),'real_series_positive_against_best_of_raw_zlib_lzma':positive,'official_ALP_matched_performance':'NOT_RUN','originality':'NOT_VERIFIED','publication_readiness':'NOT_READY'}
+(OUT/'decision.json').write_text(json.dumps(verdict,indent=2));print(verdict)
+
+
+export_zip('SGX_NB23')
+

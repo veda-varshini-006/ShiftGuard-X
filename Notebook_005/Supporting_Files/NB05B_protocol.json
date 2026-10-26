@@ -1,8 +1,0 @@
-{
-  "block_size": 16384,
-  "budget_definition": "maximum additional transform+codec encodes per triggered block, above an always-encoded incumbent",
-  "drift": "L1 distance between sampled byte-frequency vectors",
-  "selection": "minimum measured encoded size including container overhead",
-  "caveat": "different prior decisions mean multi-block byte totals need not be monotonic in budget; runtime always includes probes",
-  "data_provenance": "synthetic unless public_ prefix"
-}
