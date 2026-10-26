@@ -1,0 +1,19 @@
+{
+  "block_size": 16384,
+  "dataset_names": [
+    "sensor_walk",
+    "logs",
+    "jsonl",
+    "random",
+    "regimes",
+    "recurring"
+  ],
+  "seed_list": [
+    11,
+    22,
+    33
+  ],
+  "budget_alternatives_per_block": 2,
+  "oracle_is_not_deployable": true,
+  "note": "Synthetic data only unless external_ datasets supplied. Timing single-shot; rerun on stable hardware for paper claims."
+}

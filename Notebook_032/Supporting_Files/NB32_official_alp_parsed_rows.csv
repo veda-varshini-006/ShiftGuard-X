@@ -1,0 +1,2 @@
+,column,compression_speed(cycles_per_value),data_type,decompression_speed(cycles_per_value),idx,rowgroups_count,size,source_file,vectors_count
+,SGX_UCI_T_f64,7.82,double,3.13,0,1,8.59,official_result_attempt_0_binary.csv,8

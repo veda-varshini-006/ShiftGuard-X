@@ -1,0 +1,26 @@
+{
+  "notebook": 70,
+  "pin": "31ca0ed11c93c99d3f5b5c30e01a3e1c3832d3ce",
+  "mode": "COLAB_REAL_DATA",
+  "build": "PASS",
+  "bench": "PASS",
+  "official_native_bpv_available": true,
+  "matched_full_file_size_available": false,
+  "input_streams": 4,
+  "wine_red_source_sha256": "4a402cf041b025d4566d954c3b9ba8635a3a8a01e039005d97d6a710278cf05e",
+  "wine_white_source_sha256": "76c3f809815c17c07212622f776311faeb31e87610d52c26d87d6e361b169836",
+  "alp_config_sha256": "298335a768434022d5b6c2e56516c25eed663cd2e27b356a997f26776d384849",
+  "native_result_rows": 4,
+  "native_result_header": [
+    "idx",
+    "column",
+    "data_type",
+    "size",
+    "rowgroups_count",
+    "vectors_count",
+    "decompression_speed(cycles_per_value)",
+    "compression_speed(cycles_per_value)",
+    ""
+  ],
+  "decision": "ALP_NATIVE_BENCHMARK_OBTAINED"
+}

@@ -1,0 +1,25 @@
+stream,input_sha256,n,mode,bpv,native_file_bytes,decode_exact,error
+digits_fixture__c00,b6326ebad33657b94141924d67f512a10aeb88002b27dfd2a0f28d8b302265c1,1797,zlib6,0.16471897607122982,37,True,
+digits_fixture__c00,b6326ebad33657b94141924d67f512a10aeb88002b27dfd2a0f28d8b302265c1,1797,lzma1,0.5164162493043962,116,True,
+digits_fixture__c00,,,zstd3,,,,"ModuleNotFoundError(""No module named 'zstandard'"")"
+digits_fixture__c10,e5be8fee1b82cf6b7e1eafef67decfa6fabcab6c61ad4656aba83a17a6364a39,1797,zlib6,7.416805787423484,1666,True,
+digits_fixture__c10,e5be8fee1b82cf6b7e1eafef67decfa6fabcab6c61ad4656aba83a17a6364a39,1797,lzma1,6.998330550918197,1572,True,
+digits_fixture__c10,,,zstd3,,,,"ModuleNotFoundError(""No module named 'zstandard'"")"
+digits_fixture__c25,11a711116d642cc2af7ea92d753306cfe28144265ed6a45653bcc33249e63970,1797,zlib6,6.023372287145242,1353,True,
+digits_fixture__c25,11a711116d642cc2af7ea92d753306cfe28144265ed6a45653bcc33249e63970,1797,lzma1,6.072342793544797,1364,True,
+digits_fixture__c25,,,zstd3,,,,"ModuleNotFoundError(""No module named 'zstandard'"")"
+digits_fixture__c50,1c749127e54813e38e0ff96b9427257ca87d51579dd5a5f76479d76667860c40,1797,zlib6,7.870895937673901,1768,True,
+digits_fixture__c50,1c749127e54813e38e0ff96b9427257ca87d51579dd5a5f76479d76667860c40,1797,lzma1,7.336672231496939,1648,True,
+digits_fixture__c50,,,zstd3,,,,"ModuleNotFoundError(""No module named 'zstandard'"")"
+breast_fixture__c00,5d24e9b0334640738e21962917261b66b9ad2b59f40e5f8c315b5d3bd6b1523e,569,zlib6,24.857644991212652,1768,True,
+breast_fixture__c00,5d24e9b0334640738e21962917261b66b9ad2b59f40e5f8c315b5d3bd6b1523e,569,lzma1,23.339191564147626,1660,True,
+breast_fixture__c00,,,zstd3,,,,"ModuleNotFoundError(""No module named 'zstandard'"")"
+breast_fixture__c02,ab6f9fa31130f08fdba163be59e3930559419406959125a9028dd314513e1285,569,zlib6,26.094903339191564,1856,True,
+breast_fixture__c02,ab6f9fa31130f08fdba163be59e3930559419406959125a9028dd314513e1285,569,lzma1,23.90158172231986,1700,True,
+breast_fixture__c02,,,zstd3,,,,"ModuleNotFoundError(""No module named 'zstandard'"")"
+breast_fixture__c10,ccab338beeb7226702953d1ce2549f9a82568d88889854f6b32cc80cf5db1a67,569,zlib6,40.18277680140598,2858,True,
+breast_fixture__c10,ccab338beeb7226702953d1ce2549f9a82568d88889854f6b32cc80cf5db1a67,569,lzma1,39.31107205623901,2796,True,
+breast_fixture__c10,,,zstd3,,,,"ModuleNotFoundError(""No module named 'zstandard'"")"
+breast_fixture__c20,09a3bf49a69fd70975bf2a6ac43d4552b99f726450dc20944239fbca903825c1,569,zlib6,24.056239015817223,1711,True,
+breast_fixture__c20,09a3bf49a69fd70975bf2a6ac43d4552b99f726450dc20944239fbca903825c1,569,lzma1,22.101933216168717,1572,True,
+breast_fixture__c20,,,zstd3,,,,"ModuleNotFoundError(""No module named 'zstandard'"")"

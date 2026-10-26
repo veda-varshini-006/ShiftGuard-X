@@ -1,0 +1,50 @@
+{
+  "archive_created_utc": "2026-10-26",
+  "scope": "NB114 through NB119",
+  "results_present": [
+    {
+      "filename": "SGX_NB114_SYNTHETIC_v2_results.zip",
+      "size_bytes": 2465717,
+      "sha256": "7f10a2a0a695794be6194afec6664f32a0cef3981c07157363fbabde968a11dc"
+    },
+    {
+      "filename": "SGX_NB115_results.zip",
+      "size_bytes": 7523196,
+      "sha256": "130f9b32a041e156114c3b54f20e279fbc757f43103964aec1c997518d5086cf"
+    },
+    {
+      "filename": "SGX_NB116_results.zip",
+      "size_bytes": 1585236,
+      "sha256": "db310038ee26ef3ce026f53c7e2df6a705df5ff93f78c646818cbd24e0703e28"
+    },
+    {
+      "filename": "SGX_NB117_results.zip",
+      "size_bytes": 1652,
+      "sha256": "e4147cc6732e6511cdfde9019ded316e6843497070cbdbe020cdad904be7c3c8"
+    },
+    {
+      "filename": "SGX_NB117_results(1).zip",
+      "size_bytes": 1654,
+      "sha256": "da4ce2ace8008b8ed64a336e307d58bce587e73913f49216aff73ff0be4aeecc"
+    },
+    {
+      "filename": "SGX_NB118_results.zip",
+      "size_bytes": 5769,
+      "sha256": "6634e505480f278715bd78248e451c5d5b06858bbfa0c0444cf853b4a58e9744"
+    }
+  ],
+  "results_missing": [
+    "SGX_NB119_results.zip"
+  ],
+  "notebooks_included": [
+    "SGX_NB114_Certified_Reversible_Transform_Feasibility_AutoZIP.ipynb",
+    "SGX_NB114_No_Upload_Synthetic_AutoZIP.ipynb",
+    "SGX_NB114_SYNTHETIC_NO_UPLOAD_v2_AutoZIP.ipynb",
+    "SGX_NB115_Two_Parent_Reversible_Residual_Gate_AutoZIP.ipynb",
+    "SGX_NB116_Real_Data_Specialist_Benchmark_Gate_AutoZIP.ipynb",
+    "SGX_NB117_IEEE754_Evaluation_Path_Novelty_Gate_NO_UPLOAD_AutoZIP.ipynb",
+    "SGX_NB118_Real_Arithmetic_Path_Diversity_NO_UPLOAD_AutoZIP.ipynb",
+    "SGX_NB119_Real_Arithmetic_Path_Compression_Cost_Gate_NO_UPLOAD_AutoZIP.ipynb"
+  ],
+  "claims": "Bitwise-preserved original ZIPs, no invented NB119 results."
+}

@@ -1,0 +1,8 @@
+{
+  "backend": "zstd1",
+  "block_size": 16384,
+  "principle": "same backend, header, blocks across every predictor",
+  "context4": "predict byte from 4 positions earlier modulo 256; reversible; established lag prediction and NOT inherently novel",
+  "oracle": "evaluation-only; compresses every candidate, not a deployable comparator",
+  "critical_next_question": "whether an original coding mechanism can beat existing predictive + entropy coder baselines on unseen public datasets"
+}

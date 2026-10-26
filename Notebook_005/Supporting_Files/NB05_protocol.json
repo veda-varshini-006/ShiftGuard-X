@@ -1,0 +1,27 @@
+{
+  "data": [
+    "sensor_walk",
+    "logs",
+    "random",
+    "regimes",
+    "recurring"
+  ],
+  "thresholds": [
+    0.15,
+    0.45,
+    0.9,
+    1.8
+  ],
+  "budgets": [
+    0,
+    1,
+    2,
+    4
+  ],
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "caution": "No test-set tuning. Synthetic regimes do not establish real-world generalization. Cost is measured wall time, not inferred from estimated entropy. No theoretical regret guarantee claimed."
+}

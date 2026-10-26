@@ -1,0 +1,2 @@
+id,column_name,data_type,path,file_type
+0,SGX_UCI_T_f64,double,/content/SGX_NB32_dataset/sgx_temperature_f64.bin,binary

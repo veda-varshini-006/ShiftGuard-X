@@ -1,0 +1,13 @@
+dataset,source_kind,method,bytes_full_container,n_rows,bit_exact,path_disagreements,p0_exact_matches,p1_extra_exact_matches
+real_UCI_Bike_identity,real_negative_control,whole,87793,17379,True,0,17379,0
+real_UCI_Bike_identity,real_negative_control,raw,87578,17379,True,0,17379,0
+real_UCI_Bike_identity,real_negative_control,xor,55425,17379,True,0,17379,0
+real_UCI_Bike_identity,real_negative_control,dual,55431,17379,True,0,17379,0
+engineered_rounding_path_mixture,synthetic_positive_control,whole,2114408,90000,True,90000,58457,31517
+engineered_rounding_path_mixture,synthetic_positive_control,raw,2114420,90000,True,90000,58457,31517
+engineered_rounding_path_mixture,synthetic_positive_control,xor,1737620,90000,True,90000,58457,31517
+engineered_rounding_path_mixture,synthetic_positive_control,dual,1549970,90000,True,90000,58457,31517
+adversarial_IEEE754,synthetic_stress,whole,352,8,True,0,1,0
+adversarial_IEEE754,synthetic_stress,raw,365,8,True,0,1,0
+adversarial_IEEE754,synthetic_stress,xor,372,8,True,0,1,0
+adversarial_IEEE754,synthetic_stress,dual,386,8,True,0,1,0

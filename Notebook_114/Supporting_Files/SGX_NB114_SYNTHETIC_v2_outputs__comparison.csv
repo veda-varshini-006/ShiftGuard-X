@@ -1,0 +1,3 @@
+set,rows,candidate_full_bytes,whole_file_zstd_bytes,delta_vs_zstd_bytes,gain_percent,exact,encode_seconds
+calibration,27000,742889,777843,-34954,4.4937,True,0.38
+heldout,63000,1731532,1814139,-82607,4.5535,True,0.983

@@ -1,0 +1,26 @@
+{
+  "state": "COMPLETE",
+  "streams_evaluated": 30,
+  "families": [
+    "abalone",
+    "airfoil",
+    "bike_hourly"
+  ],
+  "policy_version": "SGX55_FIXED_2026_10_22",
+  "frozen_before_test": true,
+  "robust_selected_lattice": 7,
+  "original_selected_lattice": 9,
+  "total_bytes": {
+    "baseline": 61897,
+    "old": 57510,
+    "robust": 57413
+  },
+  "test_oracle_nonlattice_bytes": 61057,
+  "robust_gain_vs_oracle_percent": 5.96819365510916,
+  "robust_gain_vs_calibration_baseline_percent": 7.244292938268414,
+  "robust_wins_vs_oracle": 6,
+  "robust_losses_vs_oracle": 5,
+  "worst_robust_regression_pct": 1520.408163265306,
+  "errors": 0,
+  "methodological_note": "All choices use first 25% calibration; hindsight best nonlattice is an oracle for reporting only; no bound against future regression. 3-fold check is within calibration. Common SGX5 full frame. Dataset families reused from NB54; NOT unseen confirmation."
+}

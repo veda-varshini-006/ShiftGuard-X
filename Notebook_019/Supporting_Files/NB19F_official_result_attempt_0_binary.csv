@@ -1,0 +1,2 @@
+idx,column,data_type,size,rowgroups_count,vectors_count,decompression_speed(cycles_per_value),compression_speed(cycles_per_value),
+0,SGX_UCI_T_f64,double,8.59,1,8,3.26,9.39
