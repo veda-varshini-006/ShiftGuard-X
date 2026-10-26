@@ -1,0 +1,10 @@
+method,status,bytes
+zlib6,PASS,55
+lzma1,PASS,110
+zstd3,PASS,74
+xor_shuffle_zstd3,PASS,68
+pcodec,PASS,95
+gorilla,PASS,71
+chimp,PASS,67
+chimp128,PASS,65
+patas,PASS,68

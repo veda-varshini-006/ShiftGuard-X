@@ -1,0 +1,14 @@
+{
+  "notebook": "NB94",
+  "status": "COMPLETE",
+  "datasets_evaluated": 2,
+  "experimental_hypothesis_pass": false,
+  "targeted_gate": "NYC frozen cent_delta >=5% vs best existing dependency mode, Bike regression <=2%; then independently replicate",
+  "algorithmic_novelty_demonstrated": false,
+  "journal_ready": false,
+  "requires_direct_Corra_C3_Virtual_comparison": true,
+  "decision": "REJECT_CENT_DELTA_SIZE_HYPOTHESIS",
+  "prior_art_caveat": "Arithmetic residuals, functional dependencies, exception fallback and bit-exact floats are established; even positive size outcomes do not constitute a novel codec.",
+  "competing_known_modes_are_post_test_oracle_only": true,
+  "data_caveat": "Restores parsed IEEE-754 streams, not original UCI CSV or NYC Parquet bytes"
+}

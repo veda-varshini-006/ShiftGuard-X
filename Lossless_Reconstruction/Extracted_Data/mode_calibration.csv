@@ -1,0 +1,11 @@
+family,mode,cal_bytes,chosen
+UCI-Bike-275,raw,12244,False
+UCI-Bike-275,mask_raw,7881,False
+UCI-Bike-275,mask_cents,7883,False
+UCI-Bike-275,mask_tri,7881,False
+UCI-Bike-275,xor_raw,7838,True
+NYC-TLC-Yellow-2024-01,raw,122837,False
+NYC-TLC-Yellow-2024-01,mask_raw,98141,False
+NYC-TLC-Yellow-2024-01,mask_cents,91688,True
+NYC-TLC-Yellow-2024-01,mask_tri,93465,False
+NYC-TLC-Yellow-2024-01,xor_raw,98466,False

@@ -1,0 +1,3 @@
+partition,stations,streams,observed_pct,bootstrap_lo_2p5_pct,bootstrap_hi_97p5_pct,station_resamples,worst_stream_saving_pct,wins_vs_oracle
+primary_PM,8,16,-24.411676391104937,-29.201398902080577,-19.547822241865447,10000,-32.10814722911497,1
+SO2_NO2_controls,8,16,-9.724941623518832,-14.449106267646314,-5.903262440272978,10000,-30.137667938298225,5

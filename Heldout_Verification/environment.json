@@ -1,0 +1,16 @@
+{
+  "python": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]",
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+  "numpy": "2.1.3",
+  "pcodec_available": true,
+  "package_installs": {
+    "zstandard": "already available",
+    "pcodec": {
+      "returncode": 0,
+      "tail": ""
+    },
+    "pyarrow": "already available",
+    "pandas": "already available",
+    "numpy": "already available"
+  }
+}

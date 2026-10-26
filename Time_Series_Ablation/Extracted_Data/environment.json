@@ -1,0 +1,15 @@
+{
+  "python": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]",
+  "numpy": "2.1.3",
+  "versions": {
+    "zstandard": "already installed",
+    "floatbungler": {
+      "returncode": 0,
+      "error": ""
+    },
+    "pcodec": {
+      "returncode": 0,
+      "error": ""
+    }
+  }
+}

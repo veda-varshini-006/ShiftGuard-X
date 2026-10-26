@@ -1,0 +1,4 @@
+mode,status,tested_words
+self,PASS_BITWISE,510
+cross,PASS_BITWISE,510
+double,PASS_BITWISE,510

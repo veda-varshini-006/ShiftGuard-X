@@ -1,0 +1,3 @@
+family,url,sha256,source_bytes,n_rows,source_member,transform
+UCI-Bike-275,https://archive.ics.uci.edu/static/public/275/bike+sharing+dataset.zip,b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401,279992,17379,hour.csv,Original integer-valued columns converted exactly to IEEE float64; not CSV-byte restoration
+NYC-TLC-Yellow-2024-01,https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet,c4d59da7bbc8abaeeeb1727947ee93d9891a71acb42854bd80db1571b2030510,49961641,120000,first 120000 parquet rows; selected numeric columns,"Parquet-decoded float64 bit patterns; null conversion to numpy NaN, not original parquet-file bytes"

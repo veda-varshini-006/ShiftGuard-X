@@ -1,0 +1,34 @@
+{
+  "candidate_name": "Causal Spatiotemporal ULP-Lifting Forest (CSULF)",
+  "status": "REJECT_THIS_CANDIDATE_ON_BEIJING",
+  "source_verified": true,
+  "channels_complete": 4,
+  "primary_results": [
+    {
+      "channel": "PM2.5",
+      "candidate_bytes": 252885,
+      "strongest_baseline_bytes": 166682,
+      "savings_vs_strongest_pct": -51.717042032133044,
+      "all_NB89_hashes_matched": false
+    },
+    {
+      "channel": "PM10",
+      "candidate_bytes": 266367,
+      "strongest_baseline_bytes": 173012,
+      "savings_vs_strongest_pct": -53.9586849467089,
+      "all_NB89_hashes_matched": false
+    }
+  ],
+  "bitwise_tests_passed": true,
+  "cross_station_ablation_win_on_both_primary_channels": true,
+  "research_novelty_established": false,
+  "one_dataset_family_only": true,
+  "Q1_submittable_new_algorithm": false,
+  "next_action": "Stop this candidate; do not post-hoc tune on Beijing if it fails",
+  "warnings": [
+    "Native PCodec must be present (or matched original NB89 archive) for a strong baseline",
+    "All policies frozen by 25% calibration only",
+    "Comparable native ALP/Corra not benchmarked by this pilot",
+    "Any accepted mechanism must be demonstrably different from relevant prior work"
+  ]
+}

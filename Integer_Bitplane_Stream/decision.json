@@ -1,0 +1,33 @@
+{
+  "notebook": 91,
+  "upstream_zip_sha256": "210758e44f9312b43534f79cd6554bf6972ff0dc4d05f69ee4ec18c7e5c6e66d",
+  "input_state": "AUDITED_FROM_RECORDED_EVIDENCE",
+  "status": "STOP_OR_REDESIGN_TEMPORAL_PATH",
+  "research_originality_proved": false,
+  "analysis": "station cluster bootstrap against hindsight best baseline",
+  "caveat": "Bootstrap data were collected on the SAME NB89 dataset and over a hindsight oracle; an independent prospective replication and novel algorithm are still required.",
+  "statistics": [
+    {
+      "partition": "primary_PM",
+      "stations": 8,
+      "streams": 16,
+      "observed_pct": -24.411676391104937,
+      "bootstrap_lo_2p5_pct": -29.201398902080577,
+      "bootstrap_hi_97p5_pct": -19.547822241865447,
+      "station_resamples": 10000,
+      "worst_stream_saving_pct": -32.10814722911497,
+      "wins_vs_oracle": 1
+    },
+    {
+      "partition": "SO2_NO2_controls",
+      "stations": 8,
+      "streams": 16,
+      "observed_pct": -9.724941623518832,
+      "bootstrap_lo_2p5_pct": -14.449106267646314,
+      "bootstrap_hi_97p5_pct": -5.903262440272978,
+      "station_resamples": 10000,
+      "worst_stream_saving_pct": -30.137667938298225,
+      "wins_vs_oracle": 5
+    }
+  ]
+}

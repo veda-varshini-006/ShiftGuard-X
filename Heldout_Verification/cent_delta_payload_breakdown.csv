@@ -1,0 +1,3 @@
+family,col:casual,col:registered,exception_mask,cent_residuals,original_exception_words,col:fare_amount,col:extra,col:mta_tax,col:tip_amount,col:tolls_amount,col:improvement_surcharge,col:congestion_surcharge,col:airport_fee
+UCI-Bike-275,11764,13893,19,22,9,,,,,,,,
+NYC-TLC-Yellow-2024-01,,,19,78023,9,86543,28653,2670,83268,8473,1623,6821,6848

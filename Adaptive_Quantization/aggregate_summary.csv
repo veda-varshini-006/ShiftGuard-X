@@ -1,0 +1,4 @@
+partition,streams,stations,strongest_oracle_total_bytes,sgx_total_bytes,saving_vs_per_stream_oracle_pct,wins
+all,32,8,615490,725236,-17.830671497506053,6
+primary_PM,16,8,339694,422619,-24.411676391104937,1
+negative_SO_NO,16,8,275796,302617,-9.724941623518832,5

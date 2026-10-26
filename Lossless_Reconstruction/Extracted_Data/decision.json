@@ -1,0 +1,27 @@
+{
+  "notebook": "NB93",
+  "status": "COMPLETE",
+  "datasets_evaluated": 2,
+  "native_pcodec_available": true,
+  "dataset_names": [
+    "UCI-Bike-275",
+    "NYC-TLC-Yellow-2024-01"
+  ],
+  "calibration_chosen_before_heldout": true,
+  "bitwise_test_passed": true,
+  "five_percent_size_gate_passed": true,
+  "negative_control_passed": true,
+  "prior_art_NB93_variants_covered_by_existing_dependency_exception_and_XOR_schemes": true,
+  "novel_algorithm_established": false,
+  "journal_ready": false,
+  "next_action": "SEARCH FOR A DISTINCT THEORETICAL MECHANISM, DO NOT CLAIM THIS IS NOVEL",
+  "warnings": [
+    "Results are on previously known functional-dependency examples, not independent innovation confirmation.",
+    "NYC and bike data are different schemas: no stream-level pooling.",
+    "Strongest joint baseline is selected post-test as a deliberately conservative comparator oracle, not a deployable selector.",
+    "If PCodec is unavailable or fails bitwise validation on any family, the native baseline gate is INCOMPLETE even if all other measurements succeed.",
+    "Portable representation reconstructs parsed float64 streams, NOT CSV or Parquet original bytes.",
+    "NaN/payload test in self-contained smoke is synthetic correctness evidence only.",
+    "Prior-art equivalent baseline such as Corra/Virtual must be directly benchmarked before innovation claims."
+  ]
+}

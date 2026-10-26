@@ -1,0 +1,12 @@
+{
+  "status": "COMPLETE",
+  "loaded_stations": 8,
+  "streams": 32,
+  "primary_complete_streams": 16,
+  "SGX_wins_vs_both_native_and_generic": 1,
+  "research_decision": "DO_NOT_CLAIM_NOVELTY_OR_Q1_READY",
+  "next_step": "If no meaningful gain against BOTH native and generic baselines, retire this temporal-XOR direction. Any positive finding requires independent validation and a genuinely new mechanism.",
+  "note": "NB89 uses the official UCI Beijing source. EPA findings from NB88 remain independent, previously collected evidence, not rerun here.",
+  "source_errors": [],
+  "codec_errors": 0
+}

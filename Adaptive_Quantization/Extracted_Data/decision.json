@@ -1,0 +1,13 @@
+{
+  "notebook": 90,
+  "state": "AUDITED_FROM_RECORDED_EVIDENCE",
+  "input_schema": "native_nb89",
+  "upstream_zip_sha256": "5f4e9a13f45d94347d8dcda86e057e975874b8962bc8e7e0650faf24ec161063",
+  "verified_rows": 32,
+  "primary_streams": 16,
+  "primary_stations": 8,
+  "primary_any_sgx_win_over_both": true,
+  "research_claim": "NO_NEW_CODEC_ORIGINALITY_ESTABLISHED",
+  "interpretation": "Per-stream strongest comparator is a hindsight oracle; it is not a deployable selection policy. Rows from different NB89 variants cannot be pooled.",
+  "issues": []
+}
